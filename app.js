@@ -4,7 +4,7 @@ const playerTwo = "two";
 let currPlayer = playerOne;
 
 //set gameOver to false at the start of the game
-const gameOver = false;
+let gameOver = false;
 let board;
 let currColumns; //this will be used later to add "gravity" to the pieces
 
@@ -85,8 +85,41 @@ function checkWinner() {
                 }
             }
         }
+   }
+   //vertically
+   for(let c=0; c<columns; c++){
+        for(let r=0; r<rows-3; r++){
+            if(board[r][c] != ' '){
+                if(board[r][c] == board[r+1][c] && board[r+1][c] == board[r+2][c] && board[r+2][c] == board[r+3][c]){
+                    setWinner(r, c);
+                    return;
+                }
+            }
+        }
+   }
+   //anti-diagonally
+   for(let r=0; r<rows-3; r++){
+        for(let c=0; c<columns-3; c++){
+            if(board[r][c] != ' '){
+                 if(board[r][c] == board[r+1][c+1] && board[r+1][c+1] == board[r+2][c+2] && board[r+2][c+2] == board[r+3][c+3]){
+                    setWinner(r, c)
+                     return;
+                }
+            }
+        }
+   }
+   //diagonally
+   for(let r=3; r<rows; r++){
+        for(let c=0; c<columns-3; c++){
+            if(board[r][c] != ' '){
+                if(board[r][c] == board[r-1][c+1] && board[r-1][c+1] == board[r-2][c+2] && board[r-2][c+2] == board[r-3][c+3]){
+                    setWinner(r, c)
+                    return;
+                }
+            }
+        }
    } 
-}
+};
 
 function setWinner(r, c){
     let winner = document.getElementById("winner")
@@ -94,5 +127,6 @@ function setWinner(r, c){
         winner.innerText = "Player One Wins!!!!"
     } else {
         winner.innerText = "Player Two Wins!!!!"
-    }    
+    }
+    gameOver = true;    
 }
